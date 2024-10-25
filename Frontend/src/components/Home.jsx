@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate inst
 import { FaShieldAlt, FaLock, FaBolt } from 'react-icons/fa';
 import bankingImage from '../assets/9094591.jpg';
 import features from '../assets/features.jpg';
-import Footer from './footer'; // Import the Footer component
+import Footer from './Footer'; // Import the Footer component
 
 function Home() {
   const navigate = useNavigate(); // Use useNavigate hook
