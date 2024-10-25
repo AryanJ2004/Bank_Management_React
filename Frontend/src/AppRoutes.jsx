@@ -7,6 +7,7 @@ import Register from './components/Register';
 import Dashboard from './components/Users/Dashboard';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import PrivateRoute from './components/PrivateRoute';
+import OTPVerification from './components/OTPVerification';
 
 function AppRoutes() {
   return (
@@ -15,6 +16,7 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+      <Route path="/otp-verification" element={<OTPVerification />} />
       <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
     </Routes>
   );

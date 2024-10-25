@@ -1,5 +1,4 @@
-// src/components/OTPVerification.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Typography, TextField, Button, Box, Paper } from '@mui/material';
 import axios from 'axios';
@@ -8,16 +7,27 @@ function OTPVerification() {
     const [otp, setOtp] = useState('');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        // Check if the OTP requirement flag is set
+        const requiresOTP = localStorage.getItem('requiresOTP');
+        if (!requiresOTP) {
+            navigate('/login'); // Redirect to login if no OTP is required
+        }
+    }, [navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const email = localStorage.getItem('email'); // Get email from local storage
+            const email = localStorage.getItem('email');
             const response = await axios.post('https://bankbackend1.vercel.app/api/auth/verify-otp', { email, otp });
-            localStorage.setItem('token', response.data.token); // Store JWT token
-            navigate('/dashboard'); // Redirect to dashboard or relevant page
+            localStorage.setItem('token', response.data.token);
+            
+            // Remove the OTP requirement flag after successful verification
+            localStorage.removeItem('requiresOTP');
+            navigate('/dashboard');
         } catch (err) {
             console.error(err.response.data);
-            alert(err.response.data.message); // Show error message
+            alert(err.response.data.message);
         }
     };
 
