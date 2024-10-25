@@ -8,14 +8,29 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Use CORS and allow requests from your frontend
+// List of allowed origins
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://bankfrontendman.vercel.app',
+  'https://your-production-frontend.com',
+];
+
+// CORS options with origin check
 const corsOptions = {
-  origin: 'http://localhost:5173', // Allow only this origin
+  origin: (origin, callback) => {
+    // Allow requests with no origin, such as mobile apps or curl requests
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true); // Origin is allowed
+    } else {
+      callback(new Error('Not allowed by CORS')); // Origin is not allowed
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
   credentials: true, // Allow credentials (if needed)
 };
 
-app.use(cors(corsOptions)); // Use the cors middleware with options
+app.use(cors(corsOptions)); // Use the CORS middleware with options
 app.use(express.json());
 
 // Connect to MongoDB
