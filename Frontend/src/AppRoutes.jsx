@@ -2,12 +2,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
-import Login from './components/Login';
+import Login from "./components/Login"
 import Register from './components/Register';
 import Dashboard from './components/Users/Dashboard';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import PrivateRoute from './components/PrivateRoute';
-import OTPVerification from './components/OTPVerification';
+import OTPVerification from './components/OtpVerification';
 
 function AppRoutes() {
   return (
