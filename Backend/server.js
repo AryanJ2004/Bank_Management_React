@@ -8,14 +8,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration
+// Use CORS and allow requests from your frontend
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://yourdomain.com'], // Replace with your frontend URL
- 
-  // credentials: true, // If you need to support credentials like cookies, authorization headers, etc.
+  origin: 'http://localhost:5173', // Allow only this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  credentials: true, // Allow credentials (if needed)
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); // Use the cors middleware with options
 app.use(express.json());
 
 // Connect to MongoDB
