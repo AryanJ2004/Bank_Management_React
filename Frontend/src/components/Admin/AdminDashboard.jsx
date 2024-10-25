@@ -17,7 +17,7 @@ function AdminDashboard() {
 
   const fetchAllBankAccounts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/bank-accounts', {
+      const res = await axios.get('https://bankbackend1.vercel.app/api/admin/bank-accounts', {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       setBankAccounts(res.data);

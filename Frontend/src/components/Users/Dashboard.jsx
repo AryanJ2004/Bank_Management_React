@@ -36,7 +36,7 @@ function Dashboard() {
 
   const fetchBankAccounts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/banks', {
+      const res = await axios.get('https://bankbackend1.vercel.app/api/banks', {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       setBankAccounts(res.data);
@@ -73,7 +73,7 @@ function Dashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/banks', formData, {
+      await axios.post('https://bankbackend1.vercel.app/api/banks', formData, {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       fetchBankAccounts();
@@ -89,7 +89,7 @@ function Dashboard() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/banks/${currentAccountId}`, formData, {
+      await axios.put(`https://bankbackend1.vercel.app/api/banks/${currentAccountId}`, formData, {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       fetchBankAccounts();
@@ -104,7 +104,7 @@ function Dashboard() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/banks/${id}`, {
+      await axios.delete(`https://bankbackend1.vercel.app/api/banks/${id}`, {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       fetchBankAccounts();
