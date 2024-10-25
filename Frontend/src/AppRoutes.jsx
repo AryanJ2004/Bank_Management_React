@@ -2,12 +2,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
-import Login from "./components/Login"
+import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Users/Dashboard';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import PrivateRoute from './components/PrivateRoute';
-import OTPVerification from './components/OtpVerification';
 
 function AppRoutes() {
   return (
@@ -16,7 +15,6 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-      <Route path="/otp-verification" element={<OTPVerification />} />
       <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
     </Routes>
   );

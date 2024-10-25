@@ -1,4 +1,3 @@
-// login.jsx
 import React, { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Container, Typography, TextField, Button, Box, Paper, Link } from '@mui/material';
@@ -14,16 +13,11 @@ function Login() {
     e.preventDefault();
     try {
       const res = await axios.post('https://bankbackend1.vercel.app/api/auth/login', { email, password });
-      
-      if (res.data.requiresOTP) { 
-        localStorage.setItem('email', email); // Store email for OTP verification
-        localStorage.setItem('requiresOTP', true); // Set OTP requirement flag
-        navigate('/otp-verification');
-    } else {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('isAdmin', res.data.isAdmin);
-        navigate(res.data.isAdmin ? '/admin' : '/dashboard', { state: { message: 'Logged in successfully!' } });
-    }
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('isAdmin', res.data.isAdmin);
+  
+      // Pass success message as state in navigate function
+      navigate(res.data.isAdmin ? '/admin' : '/dashboard', { state: { message: 'Logged in successfully!' } });
     } catch (err) {
       console.error(err.response ? err.response.data : err.message);
       alert(err.response.data.message);

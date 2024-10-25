@@ -29,14 +29,13 @@ router.post('/register', async (req, res) => {
     const otp = generateOTP();
     const otpExpiry = Date.now() + 5 * 60 * 1000;
 
-    // Create and save new user with OTP and expiration, set isVerified to false initially
+    // Create and save new user with OTP and expiration
     user = new User({
       username,
       email,
       password: hashedPassword,
       otp,
-      otpExpiry,
-      isVerified: false  // Ensure isVerified is false at registration
+      otpExpiry
     });
     await user.save();
 
@@ -54,25 +53,16 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     let user = await User.findOne({ email });
+    
+    console.log('Login User:', user); // Debugging line
 
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-    // If the user is not verified, generate and save a new OTP
-    if (!user.isVerified) {
-      const otp = generateOTP();
-      user.otp = otp;
-      user.otpExpiry = Date.now() + 5 * 60 * 1000;  // Set OTP expiry to 5 minutes from now
-      await user.save();
-
-      // Send OTP email
-      await sendOTP(email, otp);
-      
-      // Inform the frontend that OTP verification is required
-      return res.status(200).json({ message: 'Account not verified. A new OTP has been sent to your email.', requiresOTP: true });
-    }
-
     const isMatch = await bcrypt.compare(password, user.password);
+    
 
+
+    // Check if the password matches
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
@@ -88,7 +78,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
 // OTP verification route
 router.post('/verify-otp', async (req, res) => {
   try {
@@ -100,7 +89,7 @@ router.post('/verify-otp', async (req, res) => {
     }
 
     // Update user as verified and clear OTP fields
-    user.isVerified = true;
+    user.verified = true;
     user.otp = undefined;
     user.otpExpiry = undefined;
     await user.save();
@@ -116,5 +105,6 @@ router.post('/verify-otp', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
 
 module.exports = router;
