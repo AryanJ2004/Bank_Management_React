@@ -40,9 +40,9 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // API Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/banks', require('./routes/banks'));
-app.use('/api/admin', require('./routes/admin'));
+app.use('/auth', require('./routes/auth'));
+app.use('/banks', require('./routes/banks'));
+app.use('/admin', require('./routes/admin'));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'dist'))); // Change 'dist' to your React app's build directory
