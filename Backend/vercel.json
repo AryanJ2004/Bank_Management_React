@@ -2,34 +2,35 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.js",
+      "src": "backend/server.js",
       "use": "@vercel/node"
     },
     {
-      "src": "dist/**",
-      "use": "@vercel/static"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server.js"
+      "dest": "backend/server.js"
     },
     {
       "src": "^/assets/(.*)",
-      "dest": "/dist/assets/$1"
+      "dest": "frontend/dist/assets/$1"
     },
     {
       "src": "^/favicon.ico",
-      "dest": "/dist/favicon.ico"
+      "dest": "frontend/dist/favicon.ico"
     },
     {
       "src": "^/(.*)\\.(?:js|css|svg|png|jpg|jpeg|gif|ico)$",
-      "dest": "/dist/$1.$2"
+      "dest": "frontend/dist/$1.$2"
     },
     {
-      "src": "^/(.*)",
-      "dest": "/dist/index.html"
+      "src": "/(.*)",
+      "dest": "frontend/dist/index.html"
     }
   ]
 }

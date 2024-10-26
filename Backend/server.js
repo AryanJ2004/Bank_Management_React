@@ -9,26 +9,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// List of allowed origins
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://bankfrontendman.vercel.app',
-  'https://bankfroend.vercel.app',
-];
-
-// CORS options with origin check
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true); // Origin is allowed
-    } else {
-      callback(new Error('Not allowed by CORS')); 
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-  credentials: true,
-};
+// CORS configuration (keep your existing setup)
+// ...
 
 app.use(cors(corsOptions)); 
 app.use(express.json());
@@ -44,10 +26,11 @@ app.use('/api/admin', require('./routes/admin'));
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'dist')));
+  const frontendBuildPath = path.join(__dirname, '../frontend/dist');
+  app.use(express.static(frontendBuildPath));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
   });
 }
 
